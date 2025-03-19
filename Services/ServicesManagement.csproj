@@ -14,4 +14,8 @@
     <ProjectReference Include="..\EntityManagement\EntityManagement.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
 </Project>
