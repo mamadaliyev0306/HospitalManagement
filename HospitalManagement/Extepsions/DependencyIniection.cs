@@ -2,6 +2,7 @@
 using HospitalManagement.FolderLoggers;
 using Microsoft.EntityFrameworkCore;
 using Services.ModdelRepozitory;
+using ServicesManagement.Configurations;
 using ServicesManagement.ModdelRepository;
 using ServicesManagement.ModdelRepository.InterfaceRepository;
 using ServicesManagement.ModdelService;
@@ -17,6 +18,7 @@ namespace HospitalManagement.Extepsions
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
             return services;
         }
 

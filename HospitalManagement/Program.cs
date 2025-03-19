@@ -56,8 +56,6 @@ namespace HospitalManagement
                     return true;
                 }, "Start time should be less than end time");
             
-            
-
             //builder.Services.Configure<PdpSettings>(configuration.GetSection("PdpSettings"));
             var app = builder.Build();
 
@@ -67,13 +65,9 @@ namespace HospitalManagement
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-            app.UseMiddleware<GlobalLoggingMiddleware>();
-            app.UseMiddleware<ConfigurationValidatorMiddleware>();
+            app.AddCorrelation();
             app.MapControllers();
 
             app.Run();
