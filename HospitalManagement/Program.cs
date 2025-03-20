@@ -20,31 +20,16 @@ namespace HospitalManagement
             var builder = WebApplication.CreateBuilder(args);
             var configuration = builder.Configuration;
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            //builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddDbContext<HospitalContext>(options =>
                 options.UseNpgsql(connectionString));
             builder.Services.AddControllers();
-            //builder.Services.Configure<DoctorsSettings>(
-            //builder.Configuration.GetSection("DoctorsSettings"));
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDependencies();
-            builder.Services.AddControllers();
-
+            //Serilog configuration
+            builder.Host.SeriloConfig();
             builder.Services.Configure<AppointmentSettings>(configuration.GetSection("AppointmentSettings"));
             builder.Services.Configure<FileStorage>(configuration.GetSection("FileStorage"));
-            //File ga yozish
-            builder.Host.ConfigureLogging((context, logging) =>
-            {
-                logging.AddFileLogging(option =>
-                {
-                    context.Configuration.GetSection("FolderLoggers:Options").Bind(option);
-                });
-            });
-            builder.Services.AddSerilog((serviceProvider, configurationLogging) =>
-            {
-                configurationLogging.ReadFrom.Configuration(configuration);
-            });
             builder.Services.AddOptions<DoctorsSettings>().Bind(configuration.GetSection("DoctorsSettings"))
                 .ValidateDataAnnotations()
                 .Validate((conf) =>
@@ -55,8 +40,6 @@ namespace HospitalManagement
                     }
                     return true;
                 }, "Start time should be less than end time");
-            
-            //builder.Services.Configure<PdpSettings>(configuration.GetSection("PdpSettings"));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -68,6 +51,7 @@ namespace HospitalManagement
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.AddCorrelation();
+ 
             app.MapControllers();
 
             app.Run();
