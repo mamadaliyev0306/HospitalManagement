@@ -4,7 +4,7 @@ namespace HospitalManagement.Extepsions
 {
     public static class CorrelationMiddlewareExtension
     {
-        public static IApplicationBuilder AddCorrelation(this IApplicationBuilder app)
+        public static IApplicationBuilder AddCorrelationExtension(this IApplicationBuilder app)
         {
             app.UseMiddleware<GlobalLoggingMiddleware>();
             app.UseMiddleware<ConfigurationValidatorMiddleware>();

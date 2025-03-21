@@ -50,7 +50,7 @@ namespace HospitalManagement
             }
             app.UseHttpsRedirection();
             app.UseAuthorization();
-            app.AddCorrelation();
+            app.AddCorrelationExtension();
  
             app.MapControllers();
 
