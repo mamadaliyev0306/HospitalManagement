@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FluentValidation;
-using ServicesManagement.Configurations;
 using Microsoft.Extensions.Options;
+using ServicesManagement.Dtos.Configurations;
 
 namespace HospitalManagement.Middlewares
 {

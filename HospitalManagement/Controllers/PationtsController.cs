@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HospitalManagement.Filters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ServicesManagement.Dtos;
@@ -24,6 +25,7 @@ namespace HospitalManagement.Controllers
             _logger = logger;
         }
         [HttpPost("post")]
+        [LogActionFilter]
         public async Task<IActionResult> ArrengeAppointment([FromBody] ArrangeAppointmentDto appointmentDto)
         {
             var time = TimeOnly.FromDateTime(appointmentDto.RegisteredAt);

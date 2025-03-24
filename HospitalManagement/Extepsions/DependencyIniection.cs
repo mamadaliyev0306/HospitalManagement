@@ -2,7 +2,7 @@
 using HospitalManagement.FolderLoggers;
 using Microsoft.EntityFrameworkCore;
 using Services.ModdelRepozitory;
-using ServicesManagement.Configurations;
+using ServicesManagement.Dtos.Configurations;
 using ServicesManagement.ModdelRepository;
 using ServicesManagement.ModdelRepository.InterfaceRepository;
 using ServicesManagement.ModdelService;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicesManagement.Configurations
+namespace ServicesManagement.Dtos.Configurations
 {
     public class CorrelationIdGenerator : ICorrelationIdGenerator
     {

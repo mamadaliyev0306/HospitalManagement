@@ -26,6 +26,7 @@ namespace HospitalManagement
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDependencies();
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetDoctorQueryHandler).Assembly));
             //Serilog configuration
             builder.Host.SeriloConfig();
             builder.Services.Configure<AppointmentSettings>(configuration.GetSection("AppointmentSettings"));
