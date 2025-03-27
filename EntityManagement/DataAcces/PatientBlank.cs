@@ -19,6 +19,7 @@ namespace EntityManagement.DataAcces
         public DateTime CreatedAt { get; set; }
         public  int PatientId { get; set; }
         public Patient Patient { get; set; }
+        public int Severity { get; set; }
     }
 
 }
