@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ServicesManagement.ModdelRepository;
 public interface IPatientRepository 
 {
- Task<IList<Patient>> GetPatientsSeverity(int serverity);
+ Task<IList<Patient>> GetBySeverityPatients(int serverity);
  }
 public class PatientRepository : IPatientRepository
 {
@@ -22,7 +22,7 @@ public class PatientRepository : IPatientRepository
         _context = context;
         _cache = memoryCache;
     }
-    public async Task<IList<Patient>> GetPatientsSeverity(int serverity)
+    public async Task<IList<Patient>> GetBySeverityPatients(int serverity)
     {
         if (_cache.TryGetValue("Patients", out IList<Patient> patients))
         {
@@ -30,7 +30,8 @@ public class PatientRepository : IPatientRepository
         }
         var patientsAll =await _context.Patients
             .Include(p => p.PatientBlank)
-            .Where(p => p.PatientBlank.Severity > serverity).ToListAsync();
+            .Where(p => p.PatientBlank.Severity > serverity)
+            .ToListAsync();
         return patientsAll;
     }
 }

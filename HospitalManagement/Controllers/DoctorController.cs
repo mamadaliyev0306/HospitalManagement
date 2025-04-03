@@ -32,7 +32,7 @@ namespace HospitalManagement.Controllers
         public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("CorrelationId:{correlationId}", _correlationIdGenerator.Get());
-            var list= _octorService.GetAllDoctors();
+            var list= await _octorService.GetAllDoctors();
             return Ok(list);
         }
         [HttpPost("post")]

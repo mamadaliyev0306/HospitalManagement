@@ -1,4 +1,5 @@
 ﻿using EntityManagement.DataAcces.DbContext_Entity;
+using Microsoft.EntityFrameworkCore;
 using ServicesManagement.ModdelRepository.InterfaceRepository;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,9 @@ namespace Services.ModdelRepozitory
 
         public async Task<int> SaveChangesAsync()
             => await _context.SaveChangesAsync();
+
+        public async Task<List<TEntity>> GetAllAsync() =>
+            await _context.Set<TEntity>().ToListAsync();
     }
 
 }

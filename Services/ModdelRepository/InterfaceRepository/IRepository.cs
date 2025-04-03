@@ -15,6 +15,7 @@ namespace ServicesManagement.ModdelRepository.InterfaceRepository
         void Update(TEntity entity);
 
         IQueryable<TEntity> GetAll();
+        Task<List<TEntity>> GetAllAsync();
 
         TEntity GetById(int id);
 

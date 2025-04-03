@@ -10,16 +10,7 @@ public class DoctorDto
     public string Firstname { get; set; }
 
     public string Lastname { get; set; }
+
     public int SpecialityId { get; }
-    public int SpecialtyId { get; set; }
-    public Doctor ToEntity()
-    {
-        return new()
-        {
-            Firstname = Firstname,
-            Lastname = Lastname,
-            IsActive = true,
-            SpecialityId = SpecialtyId
-        };
-    }
+
 }

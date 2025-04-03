@@ -1,5 +1,6 @@
 
 using EntityManagement.DataAcces.DbContext_Entity;
+using HospitalManagement.AutoMapper;
 using HospitalManagement.Extepsions;
 using HospitalManagement.Middlewares;
 using HospitalManagement.Settings;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using ServicesManagement.ModdelService;
 using ServicesManagement.Settings;
+using System.Reflection;
 
 namespace HospitalManagement
 {
@@ -26,21 +28,12 @@ namespace HospitalManagement
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDependencies();
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetDoctorQueryHandler).Assembly));
+            builder.Services.AddConfiguretions(configuration);
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            builder.Services.AddAutoMapper(typeof(MapperProfile));
             //Serilog configuration
             builder.Host.SeriloConfig();
-            builder.Services.Configure<AppointmentSettings>(configuration.GetSection("AppointmentSettings"));
-            builder.Services.Configure<FileStorage>(configuration.GetSection("FileStorage"));
-            builder.Services.AddOptions<DoctorsSettings>().Bind(configuration.GetSection("DoctorsSettings"))
-                .ValidateDataAnnotations()
-                .Validate((conf) =>
-                {
-                    if (conf.WorkTime.Start >= conf.WorkTime.End)
-                    {
-                        return false;
-                    }
-                    return true;
-                }, "Start time should be less than end time");
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -14,7 +14,7 @@ namespace ServicesManagement.ModdelService.Interfaces
         {
             Task<bool> CreateDoctor(CreateDoctorDto doctorDto); 
 
-            IList<DoctorDto> GetAllDoctors(); 
+            Task<IEnumerable<DoctorDto>> GetAllDoctors(); 
 
             Task<bool> UpdateDoctor(DoctorDto doctorDto);
 

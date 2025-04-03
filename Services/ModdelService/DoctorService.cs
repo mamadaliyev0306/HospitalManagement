@@ -1,5 +1,7 @@
-﻿using EntityManagement.DataAcces;
+﻿using AutoMapper;
+using EntityManagement.DataAcces;
 using HospitalManagement.Dtos;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using ServicesManagement.ModdelRepository.InterfaceRepository;
 using ServicesManagement.ModdelService.Interfaces;
@@ -14,8 +16,9 @@ namespace ServicesManagement.ModdelService
     public class DoctorService : IDoctorService
     {
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IMapper _mapper;
 
-        public DoctorService(IDoctorRepository doctorRepository)
+        public DoctorService(IDoctorRepository doctorRepository,IMapper mapper)
         {
             _doctorRepository = doctorRepository;
         }
@@ -23,11 +26,9 @@ namespace ServicesManagement.ModdelService
 
         public async Task<bool> CreateDoctor(CreateDoctorDto doctorDto)
         {
-            if (doctorDto.SpecialtyId == null || doctorDto.Firstname==null || doctorDto.Lastname==null)
-            {
+            if(doctorDto == null) 
                 return false;
-            }
-            var doctor = doctorDto.ToEntity();
+            var doctor = _mapper.Map<Doctor>(doctorDto);
 
             await _doctorRepository.AddAsync(doctor);
             await _doctorRepository.SaveChangesAsync();
@@ -46,15 +47,13 @@ namespace ServicesManagement.ModdelService
             return true;
         }
 
-        public  IList<DoctorDto> GetAllDoctors()
+        public async Task<IEnumerable<DoctorDto>> GetAllDoctors()
         {
-            return _doctorRepository.GetAll().AsNoTracking().Select(r => new DoctorDto()
-            {
-                DoctorId = r.DoctorId,
-                Firstname = r.Firstname,
-                Lastname = r.Lastname,
-                SpecialtyId = r.SpecialityId
-            }).ToList();
+            var result = await _doctorRepository.GetAll().AsNoTracking().ToListAsync();
+            if (result == null)
+                return Enumerable.Empty<DoctorDto>();
+            return _mapper.Map<IEnumerable<DoctorDto>>(result);
+                
         }
 
         public async Task<bool> UpdateDoctor(DoctorDto doctorDto)
@@ -65,11 +64,8 @@ namespace ServicesManagement.ModdelService
             {
                 return false;
             }
-            result.DoctorId = result.DoctorId;
-            result.Lastname = doctorDto.Lastname;
-            result.Firstname = doctorDto.Firstname;
-            result.SpecialityId = doctorDto.SpecialtyId;
-             _doctorRepository.Update(result);
+             var doctor = _mapper.Map<Doctor>(result);
+              _doctorRepository.Update(doctor);
             await _doctorRepository.SaveChangesAsync();
             return true ;
         }
